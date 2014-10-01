@@ -25,7 +25,7 @@ double f3(double theta){
 
 //Number of times any function has been displayed
 static int numCompute = 0;
-
+static int numImage = 0;
 //Function for displaying the polar function. 
 //Changes color after each run, loops through 3 colours
 void compute(double (* f)(double theta), sf::RenderWindow* window){
@@ -41,11 +41,10 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
   numCompute = (numCompute + 1) %3;
   double x = sx/2;
   double y = sy/2;
-  double i = 0.0;
-
+  int i = 0;
   //While x and y are within the window bounds, and i is less than 1000
   //i<1000 bound to prevent repeating functions from repeating forever.
-  while((x < sx && x > 0.0 && y < sy && y > 0.0) && i < 1000.0){
+  while((x < sx && x > 0.0 && y < sy && y > 0.0) && i < 1000){
     double theta = i / 10.0;
     double r = f(theta);
     x = r * cos(theta);
@@ -56,11 +55,29 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
       printf("x: %f < %f y: %f < %f\n",x, sx,y, sy);
     }
     if (printi){
-      printf("i: %f\n", i);
+      printf("i: %i\n", i);
     }
     dot.setPosition(x,y);
     window->draw(dot);
     window->display();
+    if(outputimages){
+      if(i < 400 and i % 3 == 0){
+        char filename[50];
+        
+        if(numImage < 10){
+          sprintf(filename,"images/00%i.png", numImage);
+        }
+        else if(numImage < 100){
+          sprintf(filename,"images/0%i.png", numImage);
+       }
+        else{
+          sprintf(filename,"images/%i.png", numImage);
+        }
+        (window->capture()).saveToFile(filename);
+        numImage++;
+        printf("numImages %i\n", numImage);
+      }
+    }
     i++;
   }
 }
