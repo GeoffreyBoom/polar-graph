@@ -13,10 +13,10 @@ const int Mil_Per_Frame = 42;
 
 //--------------------functions--------------------//
 double f(double theta){
-  return 50 + cos(100*theta);
+  return 50 + cos(10*theta);
 }
 double f2(double theta){
-  return 100 + sin(100*theta);
+  return 50 + sin(10*theta);
 }
 double f3(double theta){
   return (theta * theta);
@@ -35,9 +35,15 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
   if (numCompute == 0)
     dot.setFillColor(sf::Color(100, 250, 50)); 
   if (numCompute == 1)
-    dot.setFillColor(sf::Color(250, 50, 100));
+    dot.setFillColor(sf::Color(250, 100, 50));
   if (numCompute == 2)
     dot.setFillColor(sf::Color(50, 100, 250));
+  if (numCompute == 3)
+    dot.setFillColor(sf::Color(100, 50, 250));
+  if (numCompute == 3)
+    dot.setFillColor(sf::Color(50, 250, 100));
+  if (numCompute == 3)
+    dot.setFillColor(sf::Color(250, 50, 100));
   numCompute = (numCompute + 1) %3;
   double x = sx/2;
   double y = sy/2;
@@ -45,7 +51,7 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
   //While x and y are within the window bounds, and i is less than 1000
   //i<1000 bound to prevent repeating functions from repeating forever.
   while((x < sx && x > 0.0 && y < sy && y > 0.0) && i < 1000){
-    double theta = i / 10.0;
+    double theta = i;
     double r = f(theta);
     x = r * cos(theta);
     y = r * sin(theta);
@@ -63,13 +69,12 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
     if(outputimages){
       if(i < 400 and i % 3 == 0){
         char filename[50];
-        
         if(numImage < 10){
           sprintf(filename,"images/00%i.png", numImage);
         }
         else if(numImage < 100){
           sprintf(filename,"images/0%i.png", numImage);
-       }
+        }
         else{
           sprintf(filename,"images/%i.png", numImage);
         }
