@@ -14,23 +14,30 @@ double f3(double theta){
 }
 static int numCompute = 0;
 void compute(double (* f)(double theta), sf::RenderWindow* window){
+  int sx = (window->getSize()).x;
+  int sy = (window->getSize()).y;
   sf::CircleShape shape(1);
   if (numCompute == 0)
     shape.setFillColor(sf::Color(100, 250, 50)); 
   if (numCompute == 1)
     shape.setFillColor(sf::Color(250, 50, 100));
   numCompute = (numCompute + 1) %2;
-  for(int i = 0; i < 10000000; i++){
+  double x = sx/2;
+  double y = sy/2;
+  int i = 0;
+  while(x < sx && x > 0 && y < sy && y > 0){
+  //for(int i = 0; i < 10000000; i++){
     double theta = i / 10.0;
     double r = f(theta);
     double x = r * cos(theta);
     double y = r * sin(theta);
-    printf("%f ",r);
+    printf("x: %f < %i y: %f < %i",x, sx,y, sy);
     x = (x + 500);
     y = (y + 500);
     shape.setPosition(x,y);
     window->draw(shape);
     window->display();
+    i++;
   }
 }
 
