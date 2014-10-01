@@ -61,6 +61,7 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
     dot.setPosition(x,y);
     window->draw(dot);
     window->display();
+    i++;
   }
 }
 
