@@ -3,23 +3,23 @@
 #include <SFML/Graphics.hpp>
 using namespace std;
 //true: print x and y 
-const bool printxy = true;
+const bool printxy = false;
 //true: print i
-const bool printi = true;
+const bool printi = false;
 //true: puts images in a folder
-const bool outputimages = true;
+const bool outputimages = false;
 //time (in miliseconds) to wait to achieve 24 fps
 const int Mil_Per_Frame = 42;
 
 //--------------------functions--------------------//
 double f(double theta){
-  return 50 + cos(10*theta);
+  return 100 + cos(10*theta);
 }
 double f2(double theta){
-  return 50 + sin(10*theta);
+  return 100 + sin(10*theta);
 }
 double f3(double theta){
-  return (theta * theta);
+  return (theta/5.0 * theta/5.0)/10.0;
 }
 
 
@@ -86,14 +86,23 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
     i++;
   }
 }
-
+void paintAxes(sf::RenderWindow* window){
+  double sx = (double)(window->getSize()).x;
+  double sy = (double)(window->getSize()).y; 
+  sf::RectangleShape xaxis(sf::Vector2f(1, sy));
+  sf::RectangleShape yaxis(sf::Vector2f(sx, 1));
+  xaxis.setPosition(sx/2,0);
+  yaxis.setPosition(0,sy/2);
+  window->draw(xaxis);
+  window->draw(yaxis);
+}
 int main(){
   sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(500, 500), "Polar");
   window->clear();
+  paintAxes(window);
   compute(f3,window);
   compute(f2,window);
   compute(f,window);
   window->clear();
   return 0;
 }
-
