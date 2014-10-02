@@ -7,7 +7,7 @@ const bool printxy = false;
 //true: print i
 const bool printi = false;
 //true: puts images in a folder
-const bool outputimages = true;
+const bool outputimages = false;
 //time (in miliseconds) to wait to achieve 24 fps
 const int Mil_Per_Frame = 42;
 int pixels_per_one = 100;
