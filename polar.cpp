@@ -7,22 +7,34 @@ const bool printxy = false;
 //true: print i
 const bool printi = false;
 //true: puts images in a folder
-const bool outputimages = false;
+const bool outputimages = true;
 //time (in miliseconds) to wait to achieve 24 fps
 const int Mil_Per_Frame = 42;
-
+int pixels_per_one = 100;
 //--------------------functions--------------------//
 double f(double theta){
-  return 100 + cos(10*theta);
+  return cos(10*theta);
 }
 double f2(double theta){
-  return 100 + sin(10*theta);
+  return sin(10*theta);
 }
 double f3(double theta){
   return (theta/5.0 * theta/5.0)/10.0;
 }
-
-
+double f4(double theta){
+  theta = theta / 100.0;
+  return (theta * theta);
+}
+double f5(double theta){
+  theta = theta / 4;
+  return (theta * theta)/100;
+}
+double f6(double theta){
+  return 2*cos(theta);
+}
+double f7(double theta){
+  return -2*cos(theta);
+}
 //Number of times any function has been displayed
 static int numCompute = 0;
 static int numImage = 0;
@@ -40,21 +52,21 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
     dot.setFillColor(sf::Color(50, 100, 250));
   if (numCompute == 3)
     dot.setFillColor(sf::Color(100, 50, 250));
-  if (numCompute == 3)
+  if (numCompute == 4)
     dot.setFillColor(sf::Color(50, 250, 100));
-  if (numCompute == 3)
+  if (numCompute == 5)
     dot.setFillColor(sf::Color(250, 50, 100));
-  numCompute = (numCompute + 1) %3;
+  numCompute = (numCompute + 1) %6;
   double x = sx/2;
   double y = sy/2;
   int i = 0;
   //While x and y are within the window bounds, and i is less than 1000
   //i<1000 bound to prevent repeating functions from repeating forever.
   while((x < sx && x > 0.0 && y < sy && y > 0.0) && i < 1000){
-    double theta = i;
+    double theta = i + 0.0;
     double r = f(theta);
-    x = r * cos(theta);
-    y = r * sin(theta);
+    x = pixels_per_one * r * cos(theta);
+    y = pixels_per_one * r * sin(theta);
     x = (x + sx/2);
     y = (y + sy/2);
     if (printxy){
@@ -67,7 +79,7 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
     window->draw(dot);
     window->display();
     if(outputimages){
-      if(i < 400 and i % 3 == 0){
+      if(/*i < 400 and*/  i % 10 == 0){
         char filename[50];
         if(numImage < 10){
           sprintf(filename,"images/00%i.png", numImage);
@@ -84,6 +96,7 @@ void compute(double (* f)(double theta), sf::RenderWindow* window){
       }
     }
     i++;
+    //sf::sleep(sf:Time(Mil_Per_Frame));
   }
 }
 void paintAxes(sf::RenderWindow* window){
@@ -100,6 +113,10 @@ int main(){
   sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(500, 500), "Polar");
   window->clear();
   paintAxes(window);
+  compute(f7,window);
+  compute(f6,window);
+  compute(f5,window);
+  compute(f4,window);
   compute(f3,window);
   compute(f2,window);
   compute(f,window);
